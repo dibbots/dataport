@@ -94,17 +94,17 @@ pub struct PortValueReadGuard<T> {
 impl<T> Deref for PortValueReadGuard<T> {
 	type Target = T;
 
-	#[allow(unsafe_code)]
 	fn deref(&self) -> &Self::Target {
 		// SAFETY: Self referencing to locked content of the `Arc` `Entry`, valid until self is dropped
+		#[allow(unsafe_code)]
 		unsafe { &*self.ptr_t }
 	}
 }
 
 impl<T> Drop for PortValueReadGuard<T> {
-	#[allow(unsafe_code)]
 	fn drop(&mut self) {
 		// SAFETY: manually decrementing lock because entry is permanently locked in new()
+		#[allow(unsafe_code)]
 		unsafe {
 			self.value.force_read_decrement();
 		}
@@ -176,27 +176,27 @@ pub struct PortValueWriteGuard<T> {
 impl<T> Deref for PortValueWriteGuard<T> {
 	type Target = T;
 
-	#[allow(unsafe_code)]
 	fn deref(&self) -> &Self::Target {
 		// SAFETY: Self referencing to locked content of the `Arc` `Entry`, valid until self is dropped
+		#[allow(unsafe_code)]
 		unsafe { &*self.ptr_t }
 	}
 }
 
 impl<T> DerefMut for PortValueWriteGuard<T> {
-	#[allow(unsafe_code)]
 	fn deref_mut(&mut self) -> &mut Self::Target {
 		// once dereferenced mutable we assume a modification
 		self.modified = true;
 		// SAFETY: Self referencing to locked content of the `Arc` `Entry`, valid until self is dropped
+		#[allow(unsafe_code)]
 		unsafe { &mut *self.ptr_t }
 	}
 }
 
 impl<T> Drop for PortValueWriteGuard<T> {
-	#[allow(unsafe_code)]
 	fn drop(&mut self) {
 		// SAFETY: manually removing lock because entry is permanently locked in new()
+		#[allow(unsafe_code)]
 		unsafe {
 			// if modified, increment sequence id
 			if self.modified {
