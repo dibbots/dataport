@@ -1,3 +1,6 @@
+`dataport` has been moved to Codeberg!
+You can find the repo [here](https://codeberg.org/dibbots/dataport)
+
 # dataports
 Port abstractions for data types.
 
